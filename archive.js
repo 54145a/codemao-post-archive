@@ -1,8 +1,6 @@
 import fs from "node:fs";
 
-async function fetchAndWriteFile(file, url) {
 
-}
 
 async function archivePost(id, timestamp) {
   if (!fs.existsSync("output")) {

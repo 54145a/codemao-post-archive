@@ -1,1 +1,1 @@
-import { archivePost } from "./archivePost";
+import { archivePost } from "./archive.js";
