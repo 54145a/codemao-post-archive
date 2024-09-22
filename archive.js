@@ -7,11 +7,14 @@ async function archivePost(id, timestamp) {
     console.log(id, details.error_message);
     return details.error_code.startsWith("Limit-Operation") ? await archivePost(id, timestamp) : false;
   }
-  fs.mkdirSync(`output/${timestamp}/${id}`);
-  fs.writeFileSync(`output/${timestamp}/${id}/post.json`, JSON.stringify(details));
+  if (!fs.existsSync(`output/${id}`)) {
+    fs.mkdirSync(`output/${id}`);
+  }
+  fs.mkdirSync(`output/${id}/${timestamp}`);
+  fs.writeFileSync(`output/${id}/${timestamp}/post.json`, JSON.stringify(details));
   const n_replies = details.n_replies;
   const repliesText = await (await fetch(`https://api.codemao.cn/web/forums/posts/${id}/replies?page=1&limit=30&sort=-n_likes`)).json();
-  fs.writeFileSync(`output/${timestamp}/${id}/replies.json`, JSON.stringify(repliesText));
+  fs.writeFileSync(`output/${id}/${timestamp}/replies.json`, JSON.stringify(repliesText));
   console.log(id, "存档完成");
 }
 async function archive(postIdList) {
@@ -19,7 +22,6 @@ async function archive(postIdList) {
     fs.mkdirSync("output");
   }
   const timestamp = Date.now();
-  fs.mkdirSync(`output/${timestamp}`);
   for (const id of postIdList) {
     await archivePost(id, timestamp);
   }

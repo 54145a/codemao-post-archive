@@ -1,4 +1,6 @@
 import fs from "node:fs";
 import { archive } from "./archive.js";
-//const archivedPostIdList = fs.readdirSync(`output/${Math.max(...fs.readdirSync("output").map(v => +v))}`);
-archive(Array.from({length: 100000}, (v, i) => i + 1));
+import { arch } from "node:os";
+const archivedPostIdList = fs.readdirSync("output").map(i => +i);
+const lastArchivedPostId = Math.max(...archivedPostIdList);
+archive(Array.from(Array(10000)).map((v, i)=>i+1));
