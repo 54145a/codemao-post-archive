@@ -1,6 +1,9 @@
-import console from "node:console";
 import fs from "node:fs";
+import { Console } from "node:console";
 
+const output = fs.createWriteStream('./stdout.log');
+const errorOutput = fs.createWriteStream('./stderr.log');
+const console = new Console({ stdout: output, stderr: errorOutput });
 async function archivePost(id, timestamp) {
   const details = await (await fetch(`https://api.codemao.cn/web/forums/posts/${id}/details`)).json();
   if (details.error_code) {
